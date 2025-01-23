@@ -80,7 +80,8 @@ async function storeAnimeDetails(
   category
 ) {
   if (!currentUser) {
-    alert("Please login to save anime!");
+    showMessage("Please login to save anime!");
+    alertMsg.style.backgroundColor = "#ee0c0c";
     return;
   }
 
@@ -111,17 +112,20 @@ async function storeAnimeDetails(
       );
 
       if (isDuplicate) {
-        alert(`${title} is already in your ${category}!`);
+        showMessage(`${title} is already in your ${category}!`);
+        alertMsg.style.backgroundColor = "#ee0c0c";
         return;
       }
     }
 
     // Add new anime to the list
     await push(userAnimeRef, animeDetails);
-    alert(`${title} has been added to your ${category}!`);
+    showMessage(`${title} has been added to your ${category}!`);
+    alertMsg.style.backgroundColor = "#0b9a0b";
   } catch (error) {
     console.error("Error storing anime details:", error);
-    alert("Failed to save anime. Please try again.");
+    showMessage("Failed to save anime. Please try again.");
+    alertMsg.style.backgroundColor = "#ee0c0c";
   }
 }
 
@@ -196,6 +200,8 @@ searchInput.addEventListener("input", async () => {
               image,
               "watchlist"
             );
+            showOptions.style.display = "none";
+            overlay.style.display = "none";
           };
           document.getElementById("ongoing").onclick = () => {
             storeAnimeDetails(
@@ -207,6 +213,8 @@ searchInput.addEventListener("input", async () => {
               image,
               "ongoing"
             );
+            showOptions.style.display = "none";
+            overlay.style.display = "none";
           };
           document.getElementById("completed").onclick = () => {
             storeAnimeDetails(
@@ -218,6 +226,8 @@ searchInput.addEventListener("input", async () => {
               image,
               "completed"
             );
+            showOptions.style.display = "none";
+            overlay.style.display = "none";
           };
         });
 
@@ -246,4 +256,15 @@ profile.addEventListener("click", () => {
 // Bookmark icon functionality
 function home() {
   window.location.href = "../index.html";
+}
+
+// Show Message
+const alertMsg = document.querySelector(".alertMsg");
+
+function showMessage(message) {
+  alertMsg.textContent = message;
+  alertMsg.classList.add("show");
+  setTimeout(() => {
+    alertMsg.classList.remove("show");
+  }, 3000);
 }
