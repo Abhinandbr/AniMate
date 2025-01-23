@@ -1,0 +1,267 @@
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Gabarito", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  background-color: #000000;
+  color: white;
+  min-height: 100vh;
+}
+
+/* Navbar Styles */
+.navbar {
+  background-color: #1b1f24;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #f97316;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.search-icon,
+.bookmark-icon,
+.profile-icon {
+  background: none;
+  border: none;
+  color: #9c9d9f;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.2s;
+}
+
+.search-icon:hover,
+.bookmark-icon:hover,
+.profile-icon:hover {
+  color: white;
+}
+
+/* search bar */
+.searchbar {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.searchbar input {
+  font-size: 1.7rem;
+  padding: 0.5rem;
+  width: 50%;
+  background-color: #1b1f24;
+  border: none;
+  border-bottom: 1px solid #9c9d9f;
+  color: #fff;
+}
+
+.seperator {
+  display: flex;
+  justify-content: center;
+}
+
+.seperator div {
+  margin-top: 3rem;
+  width: 80%;
+  border: 1px solid #2c3137;
+}
+
+/* Search Results Grid */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr); /* 8 equal-width columns */
+  gap: 1rem;
+  margin-top: 1rem;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  grid-auto-rows: 300px; /* Ensures each row is the same height */
+}
+
+.result-card {
+  background-color: #1b1f24;
+  border: 1px solid #2c3137;
+  border-radius: 5px;
+  overflow: hidden;
+  text-align: center;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 150px; /* Ensures a minimum width for each card */
+  height: 300px; /* Ensures the height remains consistent */
+}
+
+.result-card:hover {
+  transform: translateY(-5px);
+}
+
+.result-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.result-card h3 {
+  font-size: 0.9rem;
+  padding: 0.3rem;
+}
+
+.release-date {
+  font-size: 0.8rem;
+  margin-bottom: 0.3rem;
+  color: #b9bbbf;
+}
+
+.bottom-section {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #1b1f2463;
+  z-index: 1000;
+}
+
+.message-container {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.showOptions {
+  display: none;
+  position: fixed;
+  z-index: 1001;
+  width: 27rem;
+  max-height: 25rem;
+  text-align: left;
+  padding: 1rem;
+  background-color: #fff;
+  color: #000;
+  overflow-y: auto;
+}
+
+.showOptions h2 {
+  color: #000;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.showOptions p {
+  margin: 0.5rem;
+}
+
+#rating,
+#episodes {
+  font-weight: 500;
+}
+
+.msg-btns {
+  margin-top: 1rem;
+}
+
+#watchlist,
+#ongoing,
+#completed {
+  margin: 0rem 0.2rem;
+  padding: 0.3rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+  color: #fff;
+  background-color: #f97316;
+}
+
+#watchlist:hover,
+#ongoing:hover,
+#completed:hover {
+  background-color: #e56c15;
+}
+
+#watchlist:active,
+#ongoing:active,
+#completed:active {
+  transform: scale(0.97);
+}
+
+/* Mobile responsiveness */
+@media screen and (max-width: 1200px) {
+  .results-grid {
+    grid-template-columns: repeat(5, 1fr); /* 5 columns on smaller screens */
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .results-grid {
+    grid-template-columns: repeat(4, 1fr); /* 4 columns on smaller screens */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .searchbar input {
+    width: 80%;
+  }
+
+  .seperator div {
+    margin-top: 2rem;
+  }
+
+  .results-grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns on smaller screens */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .results-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+  }
+  .showOptions {
+    width: 22rem;
+    padding: 0.8rem;
+  }
+}

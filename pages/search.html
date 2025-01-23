@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anime Watchlist</title>
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=AR+One+Sans:wght@400..700&family=Black+Han+Sans&family=Gabarito:wght@400..900&family=Lexend+Deca&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome CDN for Icons -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- css link -->
+    <link rel="stylesheet" href="../styles/search.css" />
+  </head>
+  <body>
+    <div class="overlay"></div>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <a href="../index.html" class="logo">
+            <svg class="logo-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M2 6C2 4.89543 2.89543 4 4 4H20C21.1046 4 22 4.89543 22 6V18C22 19.1046 21.1046 20 20 20H4C2.89543 20 2 19.1046 2 18V6ZM4 6V18H20V6H4ZM6 9H8V11H6V9ZM11 9H13V11H11V9ZM16 9H18V11H16V9ZM6 13H8V15H6V13ZM11 13H13V15H11V13ZM16 13H18V15H16V13Z"
+              />
+            </svg>
+            MovieMate
+          </a>
+        </div>
+        <div class="nav-right">
+          <button class="search-icon">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+          <button class="bookmark-icon" onclick="home()">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"
+              ></path>
+            </svg>
+          </button>
+          <button class="profile-icon">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <!-- search bar -->
+    <div class="searchbar">
+      <input type="text" id="search" placeholder="search here" />
+    </div>
+    <div class="seperator">
+      <div></div>
+    </div>
+    <div class="results-grid" id="results"></div>
+    <div class="message-container">
+      <div class="showOptions">
+        <h2></h2>
+        <p id="rating"></p>
+        <p id="episodes"></p>
+        <p id="description"></p>
+        <div class="msg-btns">
+          <button id="watchlist">Watchlist</button>
+          <button id="ongoing">On Going</button>
+          <button id="completed">Completed</button>
+        </div>
+      </div>
+    </div>
+    <script src="../scripts/search.js" type="module"></script>
+    <script type="module">
+      // Import necessary functions from Firebase v9
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+      // Your Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDUeqGf_Ju0qJNMN-Ove3MabtEBtXUApEQ",
+        authDomain: "login-example-f4d97.firebaseapp.com",
+        databaseURL: "https://login-example-f4d97-default-rtdb.firebaseio.com",
+        projectId: "login-example-f4d97",
+        storageBucket: "login-example-f4d97.appspot.com",
+        messagingSenderId: "600470826744",
+        appId: "1:600470826744:web:c71b029207a21f5f5c950d",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+
+      // Profile Section with Firebase Auth
+      const profile = document.querySelector(".profile-icon");
+
+      // Add event listener to the profile icon
+      profile.addEventListener("click", () => {
+        // Check if the user is signed in
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            // User is signed in, redirect to profile page
+            window.location.href = "profile.html";
+          } else {
+            // No user is signed in, redirect to create profile page
+            window.location.href = "createprofile.html";
+          }
+        });
+      });
+    </script>
+    <script>
+      function home() {
+        window.location.href = "../index.html";
+      }
+    </script>
+    <div class="bottom-section"></div>
+  </body>
+</html>

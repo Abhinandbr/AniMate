@@ -1,0 +1,404 @@
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Gabarito", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  background-color: #000000;
+  color: white;
+  min-height: 100vh;
+}
+
+/* Navbar Styles */
+.navbar {
+  background-color: #1b1f24;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #f97316;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.search-icon,
+.bookmark-icon,
+.profile-icon {
+  background: none;
+  border: none;
+  color: #9c9d9f;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.2s;
+}
+
+.search-icon:hover,
+.bookmark-icon:hover,
+.profile-icon:hover {
+  color: white;
+}
+
+/* Container and Content */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.header h1 {
+  font-size: 2rem;
+}
+
+.header svg {
+  margin: 0 0.5rem;
+}
+
+.tabs {
+  border-bottom: 2px solid #374151;
+  margin-bottom: 2rem;
+  display: flex;
+}
+
+.tab {
+  padding: 1rem 1rem;
+  color: #e5e7eb;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.tab:hover {
+  background-color: #6464643d;
+}
+
+.tab.active {
+  color: #f97316;
+}
+
+.tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  width: 100%;
+  background-color: #f97316;
+}
+
+.recent-activity {
+  margin-bottom: 2rem;
+}
+
+.activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.sort-icons {
+  display: flex;
+  gap: 1rem;
+}
+
+.sort-icon {
+  background: none;
+  border: none;
+  color: #e5e7eb;
+  cursor: pointer;
+  padding: 0.5rem;
+  font-size: 1.3rem;
+}
+
+/* Anime Grid Layout */
+.anime-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  grid-auto-rows: 300px;
+}
+
+.anime-card {
+  background-color: #1b1f24;
+  border: 1px solid #2c3137;
+  border-radius: 5px;
+  overflow: hidden;
+  text-align: center;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 9.375rem;
+  height: 300px;
+}
+
+.anime-card:hover {
+  transform: translateY(-5px);
+}
+
+.anime-image {
+  width: 100%;
+  height: 12.5rem;
+  object-fit: cover;
+}
+
+.anime-title {
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.15rem;
+}
+
+.subtitle {
+  color: #e5e7eb;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Anime Modal */
+.anime-modal {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+
+.anime-modal.show {
+  opacity: 1;
+}
+
+.modal-content {
+  background-color: #1b1f24;
+  padding: 1.25rem;
+  border-radius: 8px;
+  max-width: 400px; /* Reduced from 600px */
+  width: 90%;
+  max-height: 80vh; /* Reduced from 90vh */
+  overflow-y: auto;
+  position: relative;
+  color: white;
+  /* Add custom scrollbar styling */
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent; /* For Firefox */
+}
+
+/* Webkit scrollbar styling (Chrome, Safari, Edge) */
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.modal-image {
+  max-width: 120px; /* Reduced from 200px */
+  height: auto;
+  display: block;
+  margin: 0 auto 0.75rem; /* Reduced margin */
+}
+
+.modal-content h2 {
+  font-size: 1.1rem; /* Smaller title */
+  margin-bottom: 0.5rem;
+}
+
+.modal-content p {
+  font-size: 0.85rem; /* Smaller text */
+  margin-bottom: 0.4rem;
+  line-height: 1.3;
+}
+
+.close-button {
+  position: absolute;
+  right: 0.75rem;
+  top: 0.75rem;
+  font-size: 1.25rem; /* Smaller close button */
+  cursor: pointer;
+  color: #fff;
+}
+
+.close-button:hover {
+  font-size: 1.25rem;
+  color: #fc2020;
+}
+
+.empty-message {
+  text-align: center;
+  color: #666;
+  padding: 1.5rem; /* Reduced padding */
+  font-size: 0.9rem;
+}
+
+.anime-details {
+  margin-top: 0.4rem;
+  font-size: 0.8rem; /* Smaller details text */
+  color: #888;
+}
+
+/* Modal button styling */
+.modal-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.modal-btn {
+  padding: 0.4rem 0.75rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  background-color: #2d3748;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.modal-btn:hover {
+  background-color: #4a5568;
+}
+
+.remove-btn {
+  background-color: #dc2626;
+}
+
+.remove-btn:hover {
+  background-color: #a81a1a;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  .anime-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .anime-card {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .anime-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .anime-card {
+    min-width: 100%;
+  }
+
+  .tabs {
+    flex-direction: column;
+  }
+
+  .tab {
+    padding: 1rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  .nav-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-left {
+    margin-bottom: 1rem;
+  }
+
+  .search-icon,
+  .bookmark-icon,
+  .profile-icon {
+    padding: 0.25rem;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .anime-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .anime-card {
+    min-width: 100%;
+  }
+}

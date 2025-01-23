@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Gabarito", serif;
+      }
+
+      body {
+        background-color: #000000;
+        min-height: 100vh;
+      }
+
+      /* Navbar Styles */
+      .navbar {
+        background-color: #1b1f24;
+        padding: 1rem 2rem;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #f97316;
+        text-decoration: none;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+
+      .logo-icon {
+        width: 32px;
+        height: 32px;
+      }
+
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .search-icon,
+      .bookmark-icon,
+      .profile-icon {
+        background: none;
+        border: none;
+        color: #9c9d9f;
+        cursor: pointer;
+        padding: 0.5rem;
+        transition: color 0.2s;
+      }
+
+      .search-icon:hover,
+      .bookmark-icon:hover,
+      .profile-icon:hover {
+        color: white;
+      }
+
+      /* Main styling */
+      .main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 2.5rem;
+      }
+
+      .container {
+        background-color: #1b1f24;
+        width: 100%;
+        max-width: 32rem;
+        padding: 1.8rem;
+        box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+        position: relative;
+        z-index: 1;
+      }
+
+      .profile-banner {
+        background-image: url(../assets/profile-banner.jpg);
+        width: 100%;
+        height: 30%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+      }
+
+      .profile-picture {
+        width: 7.5rem;
+        height: 7.5rem;
+        background-color: #b0bec57c;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 1rem auto 1.2rem;
+        background-size: cover;
+        background-position: center;
+        border: 2px solid #ffffff;
+      }
+
+      .pointer-cursor {
+        cursor: pointer;
+      }
+
+      .profile-picture span {
+        color: white;
+        font-size: 3rem;
+      }
+
+      input[type="file"] {
+        display: none;
+      }
+
+      .input-field {
+        width: 100%;
+        padding: 0.6rem;
+        margin-bottom: 15px;
+        border: none;
+        border-bottom: 2px solid #ccc;
+        background-color: transparent;
+        color: white;
+        font-size: 1rem;
+      }
+
+      .input-field:disabled {
+        opacity: 0.7;
+      }
+
+      .input-field:focus {
+        outline: none;
+        border-bottom: 2px solid #f97316;
+      }
+
+      .btn {
+        background-color: #fff;
+        color: #000;
+        padding: 10px 20px;
+        text-align: center;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 1rem;
+        font-weight: 500;
+        margin-top: 10px;
+      }
+
+      .btn:hover {
+        background-color: #f97316;
+        color: #fff;
+      }
+
+      .logout-btn {
+        background-color: #dc2626;
+        color: #fff;
+      }
+
+      .logout-btn:hover {
+        background-color: #b91c1c;
+      }
+
+      h1 {
+        text-align: center;
+        color: #fff;
+        margin-bottom: 20px;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .profile-btn-container {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      /* alert message */
+      .alertMsg {
+        color: #fff;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #0b9a0b;
+        z-index: 1000;
+        padding: 0.6rem;
+        font-size: 1rem;
+        font-weight: 500;
+        text-align: center;
+        transition: transform 0.3s ease;
+        transform: translateY(-100%);
+      }
+
+      .alertMsg.show {
+        transform: translateY(0);
+      }
+
+      /* Skeleton loading styles */
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
+      .skeleton-wrapper {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .skeleton-wrapper::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: translateX(-100%);
+        background-image: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0) 0,
+          rgba(255, 255, 255, 0.05) 20%,
+          rgba(255, 255, 255, 0.1) 60%,
+          rgba(255, 255, 255, 0)
+        );
+        animation: shimmer 2s infinite;
+      }
+
+      .skeleton-banner {
+        width: 100%;
+        height: 30%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        background-color: #2a2f36;
+      }
+
+      .skeleton-profile-picture {
+        width: 7.5rem;
+        height: 7.5rem;
+        background-color: #2a2f36;
+        border-radius: 50%;
+        margin: 1rem auto 1.2rem;
+        border: 2px solid #2a2f36;
+      }
+
+      .skeleton-input {
+        width: 100%;
+        height: 2.5rem;
+        margin-bottom: 15px;
+        background-color: #2a2f36;
+        border-bottom: 2px solid #2a2f36;
+      }
+
+      .skeleton-btn {
+        background-color: #2a2f36;
+        height: 2.5rem;
+        border-radius: 5px;
+        margin-top: 10px;
+        flex: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-left">
+          <a href="../index.html" class="logo">
+            <svg class="logo-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M2 6C2 4.89543 2.89543 4 4 4H20C21.1046 4 22 4.89543 22 6V18C22 19.1046 21.1046 20 20 20H4C2.89543 20 2 19.1046 2 18V6ZM4 6V18H20V6H4ZM6 9H8V11H6V9ZM11 9H13V11H11V9ZM16 9H18V11H16V9ZM6 13H8V15H6V13ZM11 13H13V15H11V13ZM16 13H18V15H16V13Z"
+              />
+            </svg>
+            MovieMate
+          </a>
+        </div>
+        <div class="nav-right">
+          <button class="search-icon" onclick="search()">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+          <button class="bookmark-icon" onclick="home()">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"
+              ></path>
+            </svg>
+          </button>
+          <button class="profile-icon">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="alertMsg"></div>
+
+    <!-- Main -->
+    <div class="main">
+      <h1>Profile</h1>
+
+      <!-- Skeleton Container -->
+      <div id="skeleton-container" class="container skeleton-wrapper">
+        <div class="skeleton-banner"></div>
+        <div class="skeleton-profile-picture"></div>
+        <div class="skeleton-input"></div>
+        <div class="skeleton-input"></div>
+        <div class="profile-btn-container">
+          <div class="skeleton-btn"></div>
+          <div class="skeleton-btn"></div>
+        </div>
+      </div>
+
+      <div class="container hidden" id="profile-container">
+        <div class="profile-banner"></div>
+
+        <div id="profile-picture" class="profile-picture"></div>
+        <input type="file" id="file-input" accept="image/*" disabled />
+
+        <input
+          type="text"
+          id="name"
+          class="input-field"
+          placeholder="Name"
+          disabled
+        />
+        <input
+          type="email"
+          id="email"
+          class="input-field"
+          placeholder="Email"
+          disabled
+        />
+
+        <div class="profile-btn-container">
+          <button id="edit-profile-btn" class="btn">Edit Profile</button>
+          <button id="save-profile-btn" class="btn hidden">Save Changes</button>
+          <button id="logout-btn" class="btn logout-btn">Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+      import {
+        getAuth,
+        signOut,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+      import {
+        getDatabase,
+        ref,
+        get,
+        update,
+      } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDUeqGf_Ju0qJNMN-Ove3MabtEBtXUApEQ",
+        authDomain: "login-example-f4d97.firebaseapp.com",
+        databaseURL: "https://login-example-f4d97-default-rtdb.firebaseio.com",
+        projectId: "login-example-f4d97",
+        storageBucket: "login-example-f4d97.appspot.com",
+        messagingSenderId: "600470826744",
+        appId: "1:600470826744:web:c71b029207a21f5f5c950d",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const database = getDatabase(app);
+
+      // DOM Elements
+      const profilePicture = document.getElementById("profile-picture");
+      const fileInput = document.getElementById("file-input");
+      const nameInput = document.getElementById("name");
+      const emailInput = document.getElementById("email");
+      const editProfileBtn = document.getElementById("edit-profile-btn");
+      const saveProfileBtn = document.getElementById("save-profile-btn");
+      const logoutBtn = document.getElementById("logout-btn");
+      const skeletonContainer = document.getElementById("skeleton-container");
+      const alertMsg = document.querySelector(".alertMsg");
+      const profileContainer = document.getElementById("profile-container");
+
+      let currentUser = null;
+      let isEditing = false;
+
+      // Check authentication state
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          currentUser = user;
+          loadUserProfile();
+        } else {
+          window.location.href = "../index.html";
+        }
+      });
+
+      // Load user profile with caching
+      async function loadUserProfile() {
+        skeletonContainer.classList.remove("hidden");
+        profileContainer.classList.add("hidden");
+        const cachedData = localStorage.getItem(`profile_${currentUser.uid}`);
+
+        if (cachedData) {
+          await new Promise((resolve) => setTimeout(resolve, 300));
+          const userData = JSON.parse(cachedData);
+          updateProfileUI(userData);
+        } else {
+          try {
+            const snapshot = await get(
+              ref(database, "users/" + currentUser.uid)
+            );
+            const userData = snapshot.val();
+
+            if (userData) {
+              localStorage.setItem(
+                `profile_${currentUser.uid}`,
+                JSON.stringify(userData)
+              );
+              updateProfileUI(userData);
+            }
+          } catch (error) {
+            console.error("Error loading profile:", error);
+            showMessage("Error loading profile: " + error.message);
+          }
+        }
+        skeletonContainer.classList.add("hidden");
+        profileContainer.classList.remove("hidden");
+      }
+
+      // Update profile UI
+      function updateProfileUI(userData) {
+        nameInput.value = userData.name || "";
+        emailInput.value = userData.email || currentUser.email || "";
+        if (userData.profilePicture) {
+          profilePicture.style.backgroundImage = `url(${userData.profilePicture})`;
+        }
+      }
+
+      // Edit Profile
+      editProfileBtn.addEventListener("click", () => {
+        isEditing = true;
+        toggleEditing(true);
+      });
+
+      // Save Profile
+      saveProfileBtn.addEventListener("click", async () => {
+        const name = nameInput.value.trim();
+        const profilePictureUrl = profilePicture.style.backgroundImage.slice(
+          5,
+          -2
+        );
+
+        const userData = {
+          name,
+          profilePicture: profilePictureUrl,
+        };
+
+        try {
+          await update(ref(database, "users/" + currentUser.uid), userData);
+          localStorage.setItem(
+            `profile_${currentUser.uid}`,
+            JSON.stringify(userData)
+          );
+          toggleEditing(false);
+          showMessage("Profile updated successfully!");
+        } catch (error) {
+          console.error("Error saving profile:", error);
+          showMessage("Error saving profile: " + error.message);
+        }
+      });
+
+      // Logout
+      logoutBtn.addEventListener("click", async () => {
+        try {
+          await signOut(auth);
+          localStorage.removeItem(`profile_${currentUser.uid}`);
+          window.location.href = "../index.html";
+        } catch (error) {
+          console.error("Error logging out:", error);
+          showMessage("Error logging out: " + error.message);
+        }
+      });
+
+      // Toggle Editing
+      function toggleEditing(editing) {
+        isEditing = editing;
+        nameInput.disabled = !editing;
+        fileInput.disabled = !editing;
+        editProfileBtn.classList.toggle("hidden", editing);
+        saveProfileBtn.classList.toggle("hidden", !editing);
+        profilePicture.classList.toggle("pointer-cursor", editing);
+      }
+
+      // Trigger file input click when profile picture is clicked
+      profilePicture.addEventListener("click", () => {
+        if (isEditing) {
+          fileInput.click();
+        }
+      });
+
+      // File Input Change
+      fileInput.addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const imageUrl = reader.result;
+            profilePicture.style.backgroundImage = `url(${reader.result})`;
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Show Message
+      function showMessage(message) {
+        alertMsg.textContent = message;
+        alertMsg.classList.add("show");
+        setTimeout(() => {
+          alertMsg.classList.remove("show");
+        }, 3000);
+      }
+    </script>
+
+    <script>
+      // Search icon functionality
+      function search() {
+        window.location.href = "search.html";
+      }
+
+      // Bookmark icon functionality
+      function home() {
+        window.location.href = "../index.html";
+      }
+    </script>
+  </body>
+</html>
