@@ -373,15 +373,6 @@ body {
     width: 100%;
   }
 
-  .nav-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .nav-left {
-    margin-bottom: 1rem;
-  }
-
   .search-icon,
   .bookmark-icon,
   .profile-icon {
