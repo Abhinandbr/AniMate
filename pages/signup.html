@@ -168,6 +168,20 @@
         color: #fff;
         margin-bottom: 20px;
       }
+
+      @media screen and (max-width: 760px) {
+        .container {
+          width: 90%;
+        }
+
+        .btn {
+          margin-top: 1rem;
+        }
+
+        .input-field {
+          padding: 0.5rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -181,7 +195,7 @@
                 d="M2 6C2 4.89543 2.89543 4 4 4H20C21.1046 4 22 4.89543 22 6V18C22 19.1046 21.1046 20 20 20H4C2.89543 20 2 19.1046 2 18V6ZM4 6V18H20V6H4ZM6 9H8V11H6V9ZM11 9H13V11H11V9ZM16 9H18V11H16V9ZM6 13H8V15H6V13ZM11 13H13V15H11V13ZM16 13H18V15H16V13Z"
               />
             </svg>
-            MovieMate
+            AniMate
           </a>
         </div>
         <div class="nav-right">
@@ -272,6 +286,7 @@
     </div>
 
     <script type="module">
+      // Firebase Imports (ensure these are included in the HTML)
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
       import {
         getAuth,
@@ -283,6 +298,7 @@
         set,
       } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
+      // Firebase Configuration
       const firebaseConfig = {
         apiKey: "AIzaSyDUeqGf_Ju0qJNMN-Ove3MabtEBtXUApEQ",
         authDomain: "login-example-f4d97.firebaseapp.com",
@@ -293,10 +309,59 @@
         appId: "1:600470826744:web:c71b029207a21f5f5c950d",
       };
 
+      // Initialize Firebase
       const app = initializeApp(firebaseConfig);
       const auth = getAuth(app);
       const database = getDatabase(app);
 
+      // Profile Picture Click Handling
+      document
+        .getElementById("profile-picture")
+        .addEventListener("click", () => {
+          document.getElementById("file-input").click();
+        });
+
+      // Profile Picture Preview
+      document
+        .getElementById("file-input")
+        .addEventListener("change", (event) => {
+          const file = event.target.files[0];
+          const validTypes = ["image/jpeg", "image/png", "image/gif"];
+          const maxSize = 5 * 1024 * 1024; // 5MB
+
+          if (file) {
+            // Validate file type and size
+            if (!validTypes.includes(file.type)) {
+              alert("Please select a valid image file (JPEG, PNG, or GIF)");
+              event.target.value = ""; // Clear the file input
+              return;
+            }
+
+            if (file.size > maxSize) {
+              alert("File is too large. Maximum size is 5MB");
+              event.target.value = ""; // Clear the file input
+              return;
+            }
+
+            // Create file preview
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              const profilePictureDiv =
+                document.getElementById("profile-picture");
+              profilePictureDiv.innerHTML = ""; // Clear the 'U' text
+              const img = document.createElement("img");
+              img.src = e.target.result;
+              img.style.width = "100%";
+              img.style.height = "100%";
+              img.style.borderRadius = "50%";
+              img.style.objectFit = "cover";
+              profilePictureDiv.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+
+      // Account Creation Event Listener
       document
         .getElementById("create-account-btn")
         .addEventListener("click", async () => {
@@ -308,6 +373,7 @@
           const fileInput = document.getElementById("file-input");
           let profilePicture = "";
 
+          // Validation
           if (!name || !email || !password || !confirmPassword) {
             alert("Please fill in all fields");
             return;
@@ -319,6 +385,7 @@
           }
 
           try {
+            // Handle profile picture upload
             if (fileInput.files[0]) {
               const reader = new FileReader();
               reader.onload = async () => {
@@ -335,6 +402,7 @@
           }
         });
 
+      // Account Creation Function
       async function createAccount(name, email, password, profilePicture) {
         try {
           const userCredential = await createUserWithEmailAndPassword(
@@ -344,6 +412,7 @@
           );
           const user = userCredential.user;
 
+          // Save user data to database
           await set(ref(database, "users/" + user.uid), {
             name,
             email,
@@ -356,6 +425,15 @@
           console.error("Error:", error);
           alert("Error: " + error.message);
         }
+      }
+
+      // Navigation Functions
+      function search() {
+        window.location.href = "search.html";
+      }
+
+      function home() {
+        window.location.href = "../index.html";
       }
     </script>
 
