@@ -166,12 +166,13 @@
         color: #000;
         padding: 10px 20px;
         text-align: center;
-        border-radius: 5px;
+        border-radius: 0.2rem;
         cursor: pointer;
         width: 100%;
         font-size: 1rem;
         font-weight: 500;
         margin-top: 10px;
+        border: none;
       }
 
       .btn:hover {
@@ -292,6 +293,19 @@
         margin-top: 10px;
         flex: 1;
       }
+
+      @media screen and (max-width: 768px) {
+        * {
+          -webkit-tap-highlight-color: transparent;
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          user-select: none;
+        }
+
+        .container {
+          max-width: 400px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -305,7 +319,7 @@
                 d="M2 6C2 4.89543 2.89543 4 4 4H20C21.1046 4 22 4.89543 22 6V18C22 19.1046 21.1046 20 20 20H4C2.89543 20 2 19.1046 2 18V6ZM4 6V18H20V6H4ZM6 9H8V11H6V9ZM11 9H13V11H11V9ZM16 9H18V11H16V9ZM6 13H8V15H6V13ZM11 13H13V15H11V13ZM16 13H18V15H16V13Z"
               />
             </svg>
-            MovieMate
+            AniMate
           </a>
         </div>
         <div class="nav-right">

@@ -252,18 +252,39 @@ body {
 
 /* Mobile responsiveness */
 @media screen and (max-width: 1200px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
   .results-grid {
     grid-template-columns: repeat(5, 1fr); /* 5 columns on smaller screens */
   }
 }
 
 @media screen and (max-width: 960px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
   .results-grid {
     grid-template-columns: repeat(4, 1fr); /* 4 columns on smaller screens */
   }
 }
 
 @media screen and (max-width: 768px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
   .searchbar input {
     width: 80%;
   }
@@ -278,6 +299,13 @@ body {
 }
 
 @media screen and (max-width: 480px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
   .results-grid {
     grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
   }
